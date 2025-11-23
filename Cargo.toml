@@ -1,0 +1,13 @@
+[package]
+name = "networkSniffer"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+network-interface = "2.0.3"
+pcap = {version = "2", features = ["capture-stream"]}
+inquire = "0.9.1"
+inquire-derive = "0.9.0"
+fmt = "0.1.0"
+dialoguer="0.12.0"
+tokio = { version = "1", features = ["full"] }
