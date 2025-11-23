@@ -1,5 +1,0 @@
-/home/subham/Desktop/networkSniffer/target/debug/deps/shell_words-c5ddde9e017a98de.d: /home/subham/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/shell-words-1.1.0/src/lib.rs
-
-/home/subham/Desktop/networkSniffer/target/debug/deps/libshell_words-c5ddde9e017a98de.rmeta: /home/subham/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/shell-words-1.1.0/src/lib.rs
-
-/home/subham/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/shell-words-1.1.0/src/lib.rs:
