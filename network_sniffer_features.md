@@ -1,12 +1,17 @@
 # Network Sniffer -- Feature Specification
 
+cmd args
+- filter by protocol
+- filter by ports
+- filter by ip address
+
 ## 1. Core Features (Beginner)
 
 ### **Packet Capture**
 
 -   Capture packets from selected network interface\
 -   Save packets to `.pcap`\
--   Import packets from existing `.pcap` files
+-   Import packets from existing `.pcap` files -> option
 
 ### **Packet Filtering**
 

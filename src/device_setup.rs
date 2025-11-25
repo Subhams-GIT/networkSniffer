@@ -8,12 +8,13 @@ pub fn setup_device(time: &mut Duration, interface: String) {
         .find(|device| device.name == interface)
         .unwrap()
         .clone();
-    println!("Using device: {:?}", main_device);
+    // println!("Using device: {:?}", main_device);
     let mut cap = Capture::from_device(main_device)
         .unwrap()
         .promisc(true)
         .snaplen(5000)
         .open()
         .unwrap();
-    start::start(time, &mut cap);
+   
+   let _res= start::start(time, &mut cap);
 }

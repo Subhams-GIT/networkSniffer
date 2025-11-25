@@ -1,3 +1,4 @@
+use indicatif::ProgressBar;
 use pcap::{Active, Capture, Packet};
 use std::fs;
 use std::io::Write;
@@ -5,7 +6,6 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 // construct a pcap file
 // 1. global header
 // 2. per packet data
-// 3.
 #[repr(C)] // forces the rust compiler to use the specified layout
 struct GlobalHeader {
     magic_number: u32,
@@ -25,6 +25,7 @@ struct PacketHeader {
 }
 
 pub fn start(time: &mut Duration, cap: &mut Capture<Active>) -> std::io::Result<()> {
+    let bar = ProgressBar::new_spinner();
     let start = SystemTime::now();
     let mut file = fs::File::create("packets.pcap")?;
     let gh = global_header();
@@ -35,14 +36,16 @@ pub fn start(time: &mut Duration, cap: &mut Capture<Active>) -> std::io::Result<
     file.write_all(&gh.sigfigs.to_le_bytes())?;
     file.write_all(&gh.snaplen.to_le_bytes())?;
     file.write_all(&gh.network.to_le_bytes())?;
+    bar.enable_steady_tick(Duration::from_millis(100));
     loop {
         std::thread::sleep(Duration::from_secs(1));
-
         match start.elapsed() {
-            Ok(elapsed) if elapsed > *time => {
+            Ok(elapsed) if elapsed >= *time => {
+                bar.finish();
                 return Ok(());
             }
             _ => match cap.next_packet() {
+                // Ok(elapsed) if elapsed < *time => bar.inc(elapsed.as_secs() / 10),
                 Ok(packet) => {
                     let ph = packet_header(&packet);
                     file.write_all(&ph.ts_sec.to_le_bytes())?;
@@ -50,7 +53,7 @@ pub fn start(time: &mut Duration, cap: &mut Capture<Active>) -> std::io::Result<
                     file.write_all(&ph.incl_len.to_le_bytes())?;
                     file.write_all(&ph.orig_len.to_le_bytes())?;
                     file.write_all(&packet.data)?;
-                    println!("Received packet! ");
+                    // println!("packet received");
                 }
                 Err(e) => {
                     println!("An error occurred while reading packet: {}", e);
