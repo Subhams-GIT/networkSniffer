@@ -1,7 +1,7 @@
-use networkSniffer::{device_setup, interface};
+use networkSniffer::{device_setup, interface,start};
 
 fn main() {
     let (mut time, interface) = interface::get_config();
-    device_setup::setup_device(&mut time, interface);
-    
+    let (mut time,capture)=device_setup::setup_device(&mut time, interface);
+    start::start(&mut time, *capture).unwrap();
 }

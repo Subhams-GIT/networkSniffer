@@ -24,7 +24,7 @@ struct PacketHeader {
     orig_len: u32,
 }
 
-pub fn start(time: &mut Duration, cap: &mut Capture<Active>) -> std::io::Result<()> {
+pub fn start(time: &mut Duration, mut cap: Capture<Active>) -> std::io::Result<()> {
     let bar = ProgressBar::new_spinner();
     let start = SystemTime::now();
     let mut file = fs::File::create("packets.pcap")?;
