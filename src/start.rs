@@ -1,12 +1,10 @@
 use indicatif::ProgressBar;
+use libc::{AF_PACKET, ETH_P_ALL, SO_BINDTODEVICE, SOCK_RAW, SOL_SOCKET, recv, setsockopt, socket};
 use pcap::{Active, Capture, Packet};
 use std::fs;
 use std::io::Write;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
-// construct a pcap file
-// 1. global header
-// 2. per packet data
-#[repr(C)] // forces the rust compiler to use the specified layout
+#[repr(C)]
 struct GlobalHeader {
     magic_number: u32,
     version_major: u16,
@@ -45,7 +43,6 @@ pub fn start(time: &mut Duration, mut cap: Capture<Active>) -> std::io::Result<(
                 return Ok(());
             }
             _ => match cap.next_packet() {
-                // Ok(elapsed) if elapsed < *time => bar.inc(elapsed.as_secs() / 10),
                 Ok(packet) => {
                     let ph = packet_header(&packet);
                     file.write_all(&ph.ts_sec.to_le_bytes())?;
@@ -53,7 +50,6 @@ pub fn start(time: &mut Duration, mut cap: Capture<Active>) -> std::io::Result<(
                     file.write_all(&ph.incl_len.to_le_bytes())?;
                     file.write_all(&ph.orig_len.to_le_bytes())?;
                     file.write_all(&packet.data)?;
-                    // println!("packet received");
                 }
                 Err(e) => {
                     println!("An error occurred while reading packet: {}", e);

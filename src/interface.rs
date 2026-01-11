@@ -6,7 +6,7 @@ use std::time::Duration;
 struct StringVector(Vec<String>);
 #[derive(Debug, PartialEq, Clone)]
 enum Filter {
-    ipAddress,
+    IpAddress,
     Protocol,
     Ports,
 }
@@ -16,11 +16,12 @@ impl fmt::Display for Filter {
         let label = match self {
             Filter::Ports => "Ports",
             Filter::Protocol => "Protocol",
-            Filter::ipAddress => "ipAddress",
+            Filter::IpAddress => "IpAddress",
         };
         write!(f, "{}", label)
     }
 }
+
 impl fmt::Display for StringVector {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}", self.0.join(", "))
@@ -35,7 +36,12 @@ pub fn get_config() -> (Duration, String) {
     let interface = Select::new("select the interface using arrow buttons", options.0)
         .prompt()
         .unwrap();
-
+    let filter = Select::new(
+        "select a filter to apply to packets for analysis",
+        vec![Filter::IpAddress, Filter::Protocol, Filter::Ports],
+    )
+    .prompt()
+    .unwrap();
     let validator = |input: &str| {
         if input.chars().count() > 1 {
             Ok(Validation::Invalid(
