@@ -1,7 +1,7 @@
 use clap::{Parser, ValueEnum};
 use inquire::Select;
-use std::{fmt, fs::OpenOptions};
-
+use std::{fmt};
+use networkSniffer::commands::scan;
 #[derive(Debug, Clone, Parser, ValueEnum, PartialEq)]
 enum Cmd {
     ScanLive,
@@ -33,9 +33,8 @@ fn main() {
             .expect("Prompt failed")
     });
     println!("{:?}", command);
-    if command=="ScanLive"{
-
-    } else{
-        
+    if command == Cmd::ScanFile {
+    } else {
+        scan::scan(interface_name);
     }
 }

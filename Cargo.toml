@@ -20,4 +20,5 @@ libc = "0.2.180"
 pcap-parser = "0.17.0"
 pcap-file = "2.0.0"
 etherparse = "0.19.0"
+tokio = { version = "1", features = ["full"] }
 clap = { version = "4.5.54", features = ["derive"] }

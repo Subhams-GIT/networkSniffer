@@ -12,10 +12,13 @@ use ratatui::{
 };
 use std::io;
 
-struct NetworkDetails {}
+struct NetworkDetails {
+    header:,
+    data:Vec<u8>,
+    
+}
 
 pub fn Tab() -> Result<(), io::Error> {
-    // Terminal setup
     enable_raw_mode()?;
     let mut stdout = io::stdout();
     execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
@@ -24,7 +27,6 @@ pub fn Tab() -> Result<(), io::Error> {
 
     let res = run_app(&mut terminal);
 
-    // Restore terminal
     disable_raw_mode()?;
     execute!(
         terminal.backend_mut(),

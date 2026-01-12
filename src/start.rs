@@ -1,5 +1,5 @@
 use indicatif::ProgressBar;
-use libc::{AF_PACKET, ETH_P_ALL, SO_BINDTODEVICE, SOCK_RAW, SOL_SOCKET, recv, setsockopt, socket};
+//use libc::{AF_PACKET, ETH_P_ALL, SO_BINDTODEVICE, SOCK_RAW, SOL_SOCKET, recv, setsockopt, socket};
 use pcap::{Active, Capture, Packet};
 use std::fs;
 use std::io::Write;
@@ -21,7 +21,6 @@ struct PacketHeader {
     incl_len: u32,
     orig_len: u32,
 }
-
 pub fn start(time: &mut Duration, mut cap: Capture<Active>) -> std::io::Result<()> {
     let bar = ProgressBar::new_spinner();
     let start = SystemTime::now();
